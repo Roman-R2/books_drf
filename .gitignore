@@ -1,0 +1,24 @@
+### IDE ###
+.idea
+
+### Python ###
+__pycache__/
+
+### ENV ###
+.env
+
+### VENV ###
+venv_microsoft
+
+### Media ###
+
+
+### BD ###
+*.sqlite3
+
+### Django ###
+*.pyc
+
+### Other ###
+help.txt
+tmp/
