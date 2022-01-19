@@ -10,14 +10,17 @@ __pycache__/
 ### VENV ###
 venv_microsoft
 
+### Django ###
+*.pyc
+
 ### Media ###
 
 
+### Tests ###
+.coverage
+
 ### BD ###
 *.sqlite3
-
-### Django ###
-*.pyc
 
 ### Other ###
 help.txt
