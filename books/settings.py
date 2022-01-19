@@ -9,8 +9,12 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+import os
 from pathlib import Path
+
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -36,7 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'store'
+    'social_django',
+
+    'store',
 ]
 
 MIDDLEWARE = [
@@ -91,6 +97,11 @@ DATABASES = {
     }
 }
 
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.github.GithubOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
@@ -139,3 +150,13 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.JSONParser',
     )
 }
+# --------------- Python Social Auth settings ---------------
+# When using PostgreSQL, it’s recommended to use the
+# built-in JSONB field to store the extracted extra_data.
+# To enable it define the setting:
+SOCIAL_AUTH_JSONFIELD_ENABLED = True
+
+# Ключи, которые выдал GitHub
+SOCIAL_AUTH_GITHUB_KEY = os.environ.get("SOCIAL_AUTH_GITHUB_KEY")
+SOCIAL_AUTH_GITHUB_SECRET = os.environ.get("SOCIAL_AUTH_GITHUB_SECRET")
+# -----------------------------------------------------------
