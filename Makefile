@@ -12,3 +12,7 @@ docker-down:
 
 docker-build:
 	docker-compose build
+
+migrate:
+	python manage.py makemigrations
+	python manage.py migrate --noinput
