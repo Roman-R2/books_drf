@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.viewsets import ModelViewSet
 
 from store.models import Book
@@ -15,7 +15,8 @@ class BookViewSet(ModelViewSet):
     # SearchFilter Чтоб искать по двум и более полям .../?search=фраза
     # OrderingFilter - для сортировки .../?ordering=price .../?ordering=-price
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    permission_classes = [IsAuthenticated]
+    # IsAuthenticated,IsAuthenticatedOrReadOnly
+    permission_classes = [IsAuthenticatedOrReadOnly]
     filter_fields = ['price']
     # Потому, что SearchFilter, укажем поля по которым сможем искать
     search_fields = ['name', 'author_name']
