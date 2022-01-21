@@ -2,8 +2,6 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
-
-
 class Book(models.Model):
     name = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=7, decimal_places=2)
@@ -52,5 +50,14 @@ class UserBookRelation(models.Model):
     def save(self, *args, **kwargs):
         from store.logic import set_rating
 
+        # Создается новое поле, если не было первичного ключа
+        creating = not self.pk
+
+        old_rating = self.rate
         super().save(*args, **kwargs)
-        set_rating(self.book)
+        new_rating = self.rate
+
+        # Если рейтинг изменился после изменения модели или идет создание
+        # нового поля модели
+        if old_rating != new_rating or creating:
+            set_rating(self.book)
