@@ -48,8 +48,7 @@ class BooksApiTestCase(APITestCase):
             annotated_likes=Count(Case(When(
                 userbookrelation__like=True,
                 then=1
-            ))),
-            rating=Avg('userbookrelation__rate')
+            )))
         ).order_by('id')
         serializer_data = BookSerializer(
             books,
@@ -66,8 +65,7 @@ class BooksApiTestCase(APITestCase):
             annotated_likes=Count(Case(When(
                 userbookrelation__like=True,
                 then=1
-            ))),
-            rating=Avg('userbookrelation__rate')
+            )))
         )
         response = self.client.get(url, data={'search': 'Author 1'})
         serializer_data = BookSerializer(
@@ -88,8 +86,7 @@ class BooksApiTestCase(APITestCase):
             annotated_likes=Count(Case(When(
                 userbookrelation__like=True,
                 then=1
-            ))),
-            rating=Avg('userbookrelation__rate')
+            )))
         ).order_by('-id')
         response = self.client.get(url, data={'ordering': '-price'})
         serializer_data = BookSerializer(

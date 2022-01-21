@@ -53,8 +53,7 @@ class BookSerializerTestCase(TestCase):
             annotated_likes=Count(Case(When(
                 userbookrelation__like=True,
                 then=1
-            ))),
-            rating=Avg('userbookrelation__rate')
+            )))
         ).order_by('id')
         data = BookSerializer(books, many=True).data
         expected_data = [

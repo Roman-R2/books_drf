@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
+
+
 class Book(models.Model):
     name = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=7, decimal_places=2)
@@ -19,6 +21,10 @@ class Book(models.Model):
         through='UserBookRelation',
         related_name='books'
     )
+    # Делаем, чтобы кэшировать rating, а не высчитывать его постоянно в
+    # аннотациях view.py
+    rating = models.DecimalField(max_digits=3, decimal_places=2,
+                                 default=None, null=True)
 
     def __str__(self):
         return f'Id {self.id}: {self.name}'
@@ -40,3 +46,11 @@ class UserBookRelation(models.Model):
 
     def __str__(self):
         return f'{self.user.username}: {self.book.name}, RATE {self.rate}'
+
+    # save - функция, которая вызывается каждый раз при создании и
+    # обновлении модели
+    def save(self, *args, **kwargs):
+        from store.logic import set_rating
+
+        super().save(*args, **kwargs)
+        set_rating(self.book)
