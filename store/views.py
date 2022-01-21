@@ -18,7 +18,8 @@ class BookViewSet(ModelViewSet):
                 then=1
             ))),
             rating=Avg('userbookrelation__rate')
-        ).order_by('id')
+        ).select_related('owner').prefetch_related(
+        'readers').order_by('id')
     serializer_class = BookSerializer
     # DjangoFilterBackend - фильтрация в url /?field=значение
     # SearchFilter Чтоб искать по двум и более полям .../?search=фраза

@@ -8,13 +8,27 @@ from store.serializers import BookSerializer
 
 class BookSerializerTestCase(TestCase):
     def test_ok(self):
-        user_1 = User.objects.create(username='user_1')
-        user_2 = User.objects.create(username='user_2')
-        user_3 = User.objects.create(username='user_3')
+        user_1 = User.objects.create(
+            username='user_1',
+            first_name='first_name_1',
+            last_name='last_name_1'
+        )
+        user_2 = User.objects.create(
+            username='user_2',
+            first_name='first_name_2',
+            last_name='last_name_2'
+        )
+        user_3 = User.objects.create(
+            username='user_3',
+            first_name='first_name_3',
+            last_name='last_name_3'
+        )
+
         book_1 = Book.objects.create(
             name='Test book 1',
             price=1000,
-            author_name='Author 1'
+            author_name='Author 1',
+            owner=user_1
         )
         book_2 = Book.objects.create(
             name='Test book 2',
@@ -51,6 +65,21 @@ class BookSerializerTestCase(TestCase):
                 'author_name': 'Author 1',
                 'annotated_likes': 3,
                 'rating': '4.67',
+                'owner_name': 'user_1',
+                'readers': [
+                    {
+                        'first_name': 'first_name_1',
+                        'last_name': 'last_name_1',
+                    },
+                    {
+                        'first_name': 'first_name_2',
+                        'last_name': 'last_name_2',
+                    },
+                    {
+                        'first_name': 'first_name_3',
+                        'last_name': 'last_name_3',
+                    }
+                ]
             },
             {
                 'id': book_2.id,
@@ -59,6 +88,21 @@ class BookSerializerTestCase(TestCase):
                 'author_name': 'Author 2',
                 'annotated_likes': 2,
                 'rating': '3.50',
+                'owner_name': '',
+                'readers': [
+                    {
+                        'first_name': 'first_name_1',
+                        'last_name': 'last_name_1',
+                    },
+                    {
+                        'first_name': 'first_name_2',
+                        'last_name': 'last_name_2',
+                    },
+                    {
+                        'first_name': 'first_name_3',
+                        'last_name': 'last_name_3',
+                    }
+                ]
             }
         ]
         self.assertEqual(expected_data, data)
